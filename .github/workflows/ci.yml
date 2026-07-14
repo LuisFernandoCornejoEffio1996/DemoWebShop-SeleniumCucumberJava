@@ -30,8 +30,8 @@ jobs:
         # Configura Java y acelera builds con cache Maven
 
       - name: Run smoke + regression tests
-        run: mvn clean verify -Dcucumber.filter.tags="@smoke or @regresion"
-        # Ejecuta pruebas de humo y regresión
+        run: mvn clean verify -Dcucumber.filter.tags="@smoke or @regresion" -Dheadless.mode=true
+        # headless.mode=true solo en CI, local sigue con interfaz gráfica
 
       - name: Upload Serenity report artifact
         if: always()
