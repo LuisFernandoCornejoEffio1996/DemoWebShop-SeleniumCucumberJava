@@ -1,0 +1,42 @@
+name: UI Tests - Selenium Cucumber Serenity
+
+on:
+  push:
+    branches:
+      - main         # integración final / producción
+      - develop      # integración continua del equipo
+      - "feature/**" # ramas de trabajo (feature/cambio)
+  pull_request:
+    branches:
+      - develop      # PR de feature -> develop
+      - main         # PR de develop -> main
+  workflow_dispatch: # ejecución manual desde Actions
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        # Clona el repo en el runner
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+        # Configura Java y acelera builds con cache Maven
+
+      - name: Run smoke + regression tests
+        run: mvn clean verify -Dcucumber.filter.tags="@smoke or @regresion"
+        # Ejecuta pruebas de humo y regresión
+
+      - name: Upload Serenity report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serenity-report
+          path: target/site/serenity
+        # Publica reporte Serenity aunque falle el job
