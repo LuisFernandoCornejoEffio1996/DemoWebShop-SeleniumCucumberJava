@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = "com.luis.qa.demowebshop",
-        tags = "",
+        tags = "@smoke or @regresion",
         plugin = {
                 "pretty"
         }
