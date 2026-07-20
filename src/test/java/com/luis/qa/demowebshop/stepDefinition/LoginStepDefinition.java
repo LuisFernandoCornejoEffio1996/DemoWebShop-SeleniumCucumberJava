@@ -6,6 +6,7 @@ import com.luis.qa.demowebshop.pages.HomePage;
 import com.luis.qa.demowebshop.pages.LoginPage;
 import com.luis.qa.demowebshop.questions.UrlPaginaActual;
 import com.luis.qa.demowebshop.questions.TextoDe;
+import com.luis.qa.demowebshop.tasks.IrPaginaRecuperarContrasena;
 import com.luis.qa.demowebshop.tasks.LoginConCredenciales;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -51,30 +52,17 @@ public class LoginStepDefinition {
         assertThat(actor.asksFor(TextoDe.the(LoginPage.MESSAGE_LOGIN_DETAIL)), containsString(mensajeDetalle));
     }
 
-    @When("el {actor} ingresa un email inválido {string} en el campo email")
+    @When("el {actor} ingresa un email invalido {string} en el campo email")
     public void elUsuarioIngresaUnEmailInvalidoEnElCampoEmail(Actor actor, String email) {
         actor.attemptsTo(
                 IngresarValor.into(LoginPage.EMAIL, email)
         );
     }
 
-    @And("el {actor} sale del campo email")
-    public void elUsuarioSaleDelCampoEmail(Actor actor) {
-        actor.attemptsTo(
-                ClickEn.element(LoginPage.PASSWORD)
-        );
-    }
-
-    @Then("se muestra el mensaje de validación de email {string}")
-    public void seMuestraElMensajeDeValidacionDeEmail(String mensaje) {
-        Actor actor = OnStage.theActorInTheSpotlight();
-        assertThat(actor.asksFor(TextoDe.the(LoginPage.VALIDAR_EMAIL_MESSAGE)), containsString(mensaje));
-    }
-
     @When("el {actor} hace click en el link Forgot password")
     public void elUsuarioHaceClickEnElLinkForgotPassword(Actor actor) {
         actor.attemptsTo(
-                ClickEn.element(LoginPage.FORGOT_PASSWORD_LINK)
+                IrPaginaRecuperarContrasena.goToRecoverPasswordPage()
         );
     }
 
