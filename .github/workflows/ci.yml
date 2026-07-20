@@ -1,42 +1,43 @@
 name: UI Tests - Selenium Cucumber Serenity
 
-on:
-  push:
-    branches:
-      - main         # integración final / producción
-      - develop      # integración continua del equipo
-      - "feature/**" # ramas de trabajo (feature/cambio)
-  pull_request:
-    branches:
-      - develop      # PR de feature -> develop
-      - main         # PR de develop -> main
-  workflow_dispatch: # ejecución manual desde Actions
+on: [push, pull_request]
 
 jobs:
-  test:
+  smoke-tests:
     runs-on: ubuntu-latest
-
+    name: Smoke Tests
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        # Clona el repo en el runner
-
+      - uses: actions/checkout@v2
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v2
         with:
-          distribution: temurin
-          java-version: "17"
-          cache: maven
-        # Configura Java y acelera builds con cache Maven
+          java-version: '17'
+          distribution: 'zulu'
+      - name: Run Smoke Tests
+        run: mvn clean verify -Dcucumber.filter.tags="@smoke" -Dheadless.mode=true
 
-      - name: Run smoke + regression tests
-        run: mvn clean verify -Dcucumber.filter.tags="@smoke or @regresion" -Dheadless.mode=true
-        # headless.mode=true solo en CI, local sigue con interfaz gráfica
-
-      - name: Upload Serenity report artifact
-        if: always()
-        uses: actions/upload-artifact@v4
+  regression-tests:
+    runs-on: ubuntu-latest
+    name: Regression Tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
-          name: serenity-report
-          path: target/site/serenity
-        # Publica reporte Serenity aunque falle el job
+          java-version: '17'
+          distribution: 'zulu'
+      - name: Run Regression Tests
+        run: mvn clean verify -Dcucumber.filter.tags="@regresion" -Dheadless.mode=true
+
+  feature-tests:
+    runs-on: ubuntu-latest
+    name: Feature & Validation Tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+      - name: Run Feature Tests
+        run: mvn clean verify -Dcucumber.filter.tags="@passwordRecovery or @validacionCampo" -Dheadless.mode=true
