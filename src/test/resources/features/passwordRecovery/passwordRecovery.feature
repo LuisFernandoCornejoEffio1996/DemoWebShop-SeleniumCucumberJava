@@ -17,7 +17,7 @@ Feature: Recuperación de Contraseña en Demo Web Shop
       | prueba1_26@gmail.com | Email with instructions has been sent to you. |
       | prueba1_29@gmail.com | Email not found.                              |
 
-  @passwordRecovery @validacionCampo
+  @passwordRecovery @validacionCampo @regresion
   Scenario Outline: Validar formato de correo en recuperacion
     When el usuario ingresa su email "<email>"
     And sale del campo email en recuperacion
