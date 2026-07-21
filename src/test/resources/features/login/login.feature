@@ -30,18 +30,18 @@ Feature: Login en Demo Web Shop
       | test@correo.com        |          | Login was unsuccessful. Please correct the errors and try again. | The credentials provided are incorrect |
       |                        |          | Login was unsuccessful. Please correct the errors and try again. | No customer account found              |
 
-  @login @regresion @validacion
-  Scenario Outline: Validación de formato de email sin enviar formulario
-    When el usuario ingresa un email inválido "<email>" en el campo email
-    And el usuario sale del campo email
-    Then se muestra el mensaje de validación de email "<mensaje>"
+  @login @regresion @validacionCampo
+  Scenario Outline: Validación de formato de email en login
+    When el usuario ingresa un email invalido "<email>" en el campo email
+    And sale del campo email en login
+    Then se muestra el mensaje de validación de email "<mensaje>" en login
 
     Examples:
-      | email           | mensaje                              |
-      | correo-invalido | Please enter a valid email address.  |
-      | a@              | Please enter a valid email address.  |
-      | a@f             | Please enter a valid email address.  |
-      | @12.com         | Please enter a valid email address.  |
+      | email           | mensaje                             |
+      | correo-invalido | Please enter a valid email address. |
+      | a@              | Please enter a valid email address. |
+      | a@f             | Please enter a valid email address. |
+      | @12.com         | Please enter a valid email address. |
 
   @login @regresion
   Scenario: Validacion de Forgot Password

@@ -28,6 +28,11 @@ El framework está diseñado para:
 - Mantener una arquitectura limpia basada en **Page Object Model (POM)**  
 - Facilitar la ejecución por **tags** (smoke, regression, módulos)
 
+### ✅ Condición para etiquetar `@regresion`
+Se etiqueta con `@regresion` únicamente a escenarios que:
+1. Ya pasan correctamente.
+2. Se mantienen estables en ejecuciones repetidas.
+
 ---
 
 ## 🧱 Arquitectura del Framework  
@@ -49,7 +54,6 @@ DemoWebShop-SeleniumCucumberJava
 │       ├── serenity.conf   # Configuración de Serenity BDD
 ├── pom.xml                      # Dependencias Maven
 └── README.md
-
 
 ---
 

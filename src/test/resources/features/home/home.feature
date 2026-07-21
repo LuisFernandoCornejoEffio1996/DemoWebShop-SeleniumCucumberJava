@@ -6,11 +6,11 @@ Feature: Navegación de la pagina principal de Demo Web Shop
   Background:
     Given que el usuario se encuentra en la página principal
 
-  @home @smoke
+  @home @smoke @regresion
   Scenario: Visualización del botón Log in
     Then el botón Log in debe mostrarse en la barra superior
 
-  @smoke @navegacion
+  @smoke @navegacion @regresion
   Scenario: Navegación al formulario de Login
     When el usuario hace clic en el botón Log in
     Then el usuario es redirigido a la página de Login
